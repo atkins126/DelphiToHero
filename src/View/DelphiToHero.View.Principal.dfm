@@ -1,0 +1,99 @@
+object Form2: TForm2
+  Left = 0
+  Top = 0
+  Caption = 'Form2'
+  ClientHeight = 454
+  ClientWidth = 675
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object pnlContent: TPanel
+    Left = 0
+    Top = 0
+    Width = 675
+    Height = 454
+    Align = alClient
+    BevelOuter = bvNone
+    ParentBackground = False
+    TabOrder = 0
+    object pnlFull: TPanel
+      Left = 121
+      Top = 0
+      Width = 554
+      Height = 454
+      Align = alClient
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 0
+      object pnlLayout: TPanel
+        Left = 0
+        Top = 121
+        Width = 554
+        Height = 333
+        Align = alClient
+        BevelOuter = bvNone
+        ParentBackground = False
+        TabOrder = 0
+      end
+      object pnlHeader: TPanel
+        Left = 0
+        Top = 0
+        Width = 554
+        Height = 121
+        Align = alTop
+        BevelOuter = bvNone
+        ParentBackground = False
+        TabOrder = 1
+      end
+    end
+    object pnlMenu: TPanel
+      Left = 0
+      Top = 0
+      Width = 121
+      Height = 454
+      Align = alLeft
+      BevelOuter = bvNone
+      ParentBackground = False
+      TabOrder = 1
+      object SpeedButton1: TSpeedButton
+        Left = 0
+        Top = 225
+        Width = 121
+        Height = 104
+        Align = alTop
+        Caption = 'USUARIO'
+        Flat = True
+        OnClick = SpeedButton1Click
+        ExplicitTop = 231
+      end
+      object SpeedButton2: TSpeedButton
+        Left = 0
+        Top = 121
+        Width = 121
+        Height = 104
+        Align = alTop
+        Caption = 'PRINCIPAL'
+        Flat = True
+        OnClick = SpeedButton2Click
+        ExplicitTop = 129
+      end
+      object pnlLogo: TPanel
+        Left = 0
+        Top = 0
+        Width = 121
+        Height = 121
+        Align = alTop
+        BevelOuter = bvNone
+        ParentBackground = False
+        TabOrder = 0
+      end
+    end
+  end
+end
