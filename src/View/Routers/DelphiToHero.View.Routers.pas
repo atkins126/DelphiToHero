@@ -27,7 +27,7 @@ begin
   TRouter4D
     .Switch
       .Router('Principal', TfrmPagePrincipal)
-      .Router('Usuarios', TfrmPageUsuarios);
+      .Router('Usuarios', TPageUsuarios);
 end;
 
 destructor TRouters.Destroy;

@@ -1,45 +1,5 @@
-object frmPageUsuarios: TfrmPageUsuarios
-  Left = 0
-  Top = 0
-  Align = alClient
-  BorderStyle = bsNone
-  Caption = 'frmPageUsuarios'
-  ClientHeight = 456
-  ClientWidth = 765
-  Color = clBtnFace
-  Font.Charset = DEFAULT_CHARSET
-  Font.Color = clWindowText
-  Font.Height = -11
-  Font.Name = 'Tahoma'
-  Font.Style = []
-  OldCreateOrder = False
+inherited PageUsuarios: TPageUsuarios
+  Caption = 'PageUsuarios'
   PixelsPerInch = 96
   TextHeight = 13
-  object Panel1: TPanel
-    Left = 0
-    Top = 0
-    Width = 765
-    Height = 456
-    Align = alClient
-    BevelOuter = bvNone
-    ParentBackground = False
-    TabOrder = 0
-    ExplicitWidth = 749
-    ExplicitHeight = 417
-    object Label1: TLabel
-      Left = 0
-      Top = 0
-      Width = 109
-      Height = 35
-      Align = alTop
-      Alignment = taCenter
-      Caption = 'Usu'#225'rios'
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -29
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-    end
-  end
 end

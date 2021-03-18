@@ -2,6 +2,14 @@
 	"hash": "d41d8cd98f00b204e9800998ecf8427e",
 	"updated": "2021-03-04T23:32:54.5262681-03:00",
 	"installedModules": {
+		"https://github.com/bittencourtthulio/bind4d": {
+			"name": "bind4d",
+			"version": "1.0.0",
+			"hash": "0c68bfe94e3ee21f0f638608e98bd7b5",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		},
 		"https://github.com/bittencourtthulio/router4delphi": {
 			"name": "router4delphi",
 			"version": "master",

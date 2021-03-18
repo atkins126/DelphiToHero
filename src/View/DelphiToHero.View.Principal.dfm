@@ -34,19 +34,21 @@ object Form2: TForm2
       TabOrder = 0
       object pnlLayout: TPanel
         Left = 0
-        Top = 121
+        Top = 88
         Width = 554
-        Height = 333
+        Height = 366
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
+        ExplicitTop = 121
+        ExplicitHeight = 333
       end
       object pnlHeader: TPanel
         Left = 0
         Top = 0
         Width = 554
-        Height = 121
+        Height = 88
         Align = alTop
         BevelOuter = bvNone
         ParentBackground = False
@@ -64,7 +66,7 @@ object Form2: TForm2
       TabOrder = 1
       object SpeedButton1: TSpeedButton
         Left = 0
-        Top = 225
+        Top = 192
         Width = 121
         Height = 104
         Align = alTop
@@ -75,7 +77,7 @@ object Form2: TForm2
       end
       object SpeedButton2: TSpeedButton
         Left = 0
-        Top = 121
+        Top = 88
         Width = 121
         Height = 104
         Align = alTop
@@ -88,7 +90,7 @@ object Form2: TForm2
         Left = 0
         Top = 0
         Width = 121
-        Height = 121
+        Height = 88
         Align = alTop
         BevelOuter = bvNone
         ParentBackground = False
