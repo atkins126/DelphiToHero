@@ -26,7 +26,8 @@ uses
   FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids;
 
 type
-  [ClassToBind('/users', 'id', 'Cadastro de Usuários')]
+  [FormRest('/users', 'guuid', 'name', 'asc')]
+  [FormDefault('Cadastro de Usuários')]
   TPageUsuarios = class(TFormTemplate)
   private
     { Private declarations }

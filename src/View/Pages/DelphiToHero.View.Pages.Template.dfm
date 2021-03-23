@@ -25,10 +25,6 @@ object FormTemplate: TFormTemplate
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitLeft = 416
-    ExplicitTop = 136
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object pnlBody: TPanel
       Left = 0
       Top = 87
@@ -41,10 +37,7 @@ object FormTemplate: TFormTemplate
       Padding.Bottom = 35
       ParentBackground = False
       TabOrder = 0
-      ExplicitTop = 0
-      ExplicitWidth = 715
-      ExplicitHeight = 89
-      object Panel2: TPanel
+      object pnlMainBody: TPanel
         Left = 80
         Top = 0
         Width = 652
@@ -53,10 +46,6 @@ object FormTemplate: TFormTemplate
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
-        ExplicitLeft = 280
-        ExplicitTop = 192
-        ExplicitWidth = 185
-        ExplicitHeight = 41
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -66,7 +55,6 @@ object FormTemplate: TFormTemplate
           BevelOuter = bvNone
           ParentBackground = False
           TabOrder = 0
-          ExplicitWidth = 612
           object Line1: TShape
             Left = 0
             Top = 75
@@ -124,8 +112,6 @@ object FormTemplate: TFormTemplate
             BevelOuter = bvNone
             Padding.Top = 15
             TabOrder = 0
-            ExplicitLeft = 296
-            ExplicitHeight = 83
             object Label2: TLabel
               Left = 0
               Top = 15
@@ -133,7 +119,6 @@ object FormTemplate: TFormTemplate
               Height = 13
               Align = alTop
               Caption = 'Pesquisar'
-              ExplicitTop = 0
               ExplicitWidth = 46
             end
             object Line2: TShape
@@ -157,7 +142,6 @@ object FormTemplate: TFormTemplate
               ParentColor = True
               TabOrder = 0
               Text = 'Edit1'
-              ExplicitTop = 41
             end
           end
         end
@@ -170,9 +154,6 @@ object FormTemplate: TFormTemplate
           BevelOuter = bvNone
           ParentBackground = False
           TabOrder = 1
-          ExplicitTop = 89
-          ExplicitWidth = 612
-          ExplicitHeight = 234
           object Panel6: TPanel
             Left = 320
             Top = 0
@@ -181,8 +162,6 @@ object FormTemplate: TFormTemplate
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 0
-            ExplicitLeft = 280
-            ExplicitHeight = 294
           end
           object DBGrid1: TDBGrid
             Left = 0
@@ -214,7 +193,6 @@ object FormTemplate: TFormTemplate
       Padding.Right = 80
       ParentBackground = False
       TabOrder = 1
-      ExplicitWidth = 715
       object Panel1: TPanel
         Left = 80
         Top = 0
@@ -223,17 +201,13 @@ object FormTemplate: TFormTemplate
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitLeft = 312
-        ExplicitTop = 40
-        ExplicitWidth = 185
-        ExplicitHeight = 41
-        object Label1: TLabel
+        object lblTitle: TLabel
           Left = 0
           Top = 0
-          Width = 37
+          Width = 38
           Height = 87
           Align = alLeft
-          Caption = 'Label1'
+          Caption = 'lblTitle'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
           Font.Height = -11
@@ -1008,7 +982,7 @@ object FormTemplate: TFormTemplate
     Left = 572
     Top = 244
     Content = {
-      414442530F008C24C42B0000FF00010001FF02FF03040016000000460044004D
+      414442530F00AD29C42B0000FF00010001FF02FF03040016000000460044004D
       0065006D005400610062006C0065003100050000000000060000070032000000
       080000FF09FF0A04000C00000043007500730074004E006F000B00010000000D
       000C000E00010F000110000111000112000113000114000C0000004300750073

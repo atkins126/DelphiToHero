@@ -20,38 +20,84 @@ uses
   Vcl.ImgList,
   Bind4D,
   System.Actions,
-  Vcl.ActnList, Data.DB, FireDAC.Stan.Intf, FireDAC.Stan.Option,
-  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf, FireDAC.Stan.StorageBin, FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client, Vcl.Grids, Vcl.DBGrids;
+  Vcl.ActnList,
+  Data.DB,
+  FireDAC.Stan.Intf,
+  FireDAC.Stan.Option,
+  FireDAC.Stan.Param,
+  FireDAC.Stan.Error,
+  FireDAC.DatS,
+  FireDAC.Phys.Intf,
+  FireDAC.DApt.Intf,
+  FireDAC.Stan.StorageBin,
+  FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client,
+  Vcl.Grids,
+  DelphiToHero.View.Styles.Color,
+  Vcl.DBGrids;
 
 type
   TFormTemplate = class(TForm, iRouter4DComponent)
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
     pnlPrincipal: TPanel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
     pnlBody: TPanel;
+
+    [ComponentBindStyle(COLOR_C1, FONT_H5, FONT_COLOR3, FONT_NAME)]
     pnlHeader: TPanel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
+    pnlMainBody: TPanel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
+    Panel3: TPanel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
+    Panel4: TPanel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
+    Panel5: TPanel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
+    Panel6: TPanel;
+
+    [ComponentBindStyle(COLOR_C1, FONT_H5, FONT_COLOR3, FONT_NAME)]
     Panel1: TPanel;
-    Label1: TLabel;
+
+    [ComponentBindStyle(clbtnface, FONT_H6, FONT_COLOR3, FONT_NAME)]
+    lblTitle: TLabel;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, COLOR_BACKGROUND_TOP, FONT_NAME)]
+    Edit1: TEdit;
+
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR, FONT_NAME)]
+    DBGrid1: TDBGrid;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     SpeedButton1: TSpeedButton;
-    ImageList1: TImageList;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     SpeedButton2: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     SpeedButton3: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton4: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton5: TSpeedButton;
+
+    ImageList1: TImageList;
     ActionList1: TActionList;
     acAdicionar: TAction;
     acRelatorio: TAction;
     acConfiguracoes: TAction;
-    Panel2: TPanel;
-    Panel3: TPanel;
     Line1: TShape;
-    SpeedButton4: TSpeedButton;
-    SpeedButton5: TSpeedButton;
-    Panel4: TPanel;
     Label2: TLabel;
-    Edit1: TEdit;
     Line2: TShape;
-    Panel5: TPanel;
-    Panel6: TPanel;
-    DBGrid1: TDBGrid;
     FDMemTable1: TFDMemTable;
     DataSource1: TDataSource;
     procedure FormCreate(Sender: TObject);
@@ -63,6 +109,7 @@ type
     FEndPoint: string;
     FPK: string;
     FTitle: string;
+    FSort, FOrder: string;
     procedure ApplyStyle;
   public
     { Public declarations }
@@ -76,8 +123,6 @@ var
 implementation
 
 {$R *.dfm}
-
-uses DelphiToHero.View.Styles.Color;
 
 { TFormTemplate }
 
@@ -100,45 +145,28 @@ procedure TFormTemplate.ApplyStyle;
 begin
   Self.Font.Name := FONT_NAME;
 
-  pnlPrincipal.Color := COLOR_BACKGROUND;
-  pnlHeader.Color := COLOR_C1;
-  pnlBody.Color := COLOR_BACKGROUND;
-  Panel1.Color := COLOR_C1;
-  Panel2.Color := COLOR_BACKGROUND;
-  Panel3.Color := COLOR_BACKGROUND;
-  Panel4.Color := COLOR_BACKGROUND;
-  Panel5.Color := COLOR_BACKGROUND;
-  Panel6.Color := COLOR_BACKGROUND;
-
   Panel6.Visible := False;
-  
+  lblTitle.Caption := FTitle;
+
   Line1.Brush.Color := COLOR_C2;
   Line2.Brush.Color := COLOR_C2;
 
-  Label1.Caption := FTitle;
-  Label1.Font.Size := FONT_H6;
-  Label1.Font.Color := FONT_COLOR3;
-//  Label1.Font.Name := 'Segoe UI';
-
   Label2.Font.Size := FONT_H6;
   Label2.Font.Color := COLOR_BACKGROUND_TOP;
-//  Label2.Font.Name := 'Segoe UI';
 
-  Edit1.Font.Size := FONT_H6;
-  Edit1.Font.Color := COLOR_BACKGROUND_TOP;
-  Edit1.Color := COLOR_BACKGROUND;
-
-  DBGrid1.Font.Size := FONT_H6;
-  DBGrid1.Font.Color := FONT_COLOR;
-//  DBGrid1.Font.Name := 'Segoe UI';
-  DBGrid1.TitleFont.Size := FONT_H5;
-//  DBGrid1.TitleFont.Name := 'Segoe UI';
+  DBGrid1.TitleFont.Name  := FONT_NAME;
+  DBGrid1.TitleFont.Size  := FONT_H5;
   DBGrid1.TitleFont.Color := FONT_COLOR4;  
 end;
 
 procedure TFormTemplate.FormCreate(Sender: TObject);
 begin
-  TBindFormJson.New.BindClassToForm(Self, FEndPoint, FPK, FTitle);
+  //TBindFormJson.New.BindClassToForm(Self, FEndPoint, FPK, FTitle);
+  TBind4D.New
+    .Form(Self)
+    .BindFormDefault(FTitle)
+    .BindFormRest(FEndPoint, FPK, FSort, FOrder)
+    .SetStyleComponents;
   ApplyStyle;
 end;
 
