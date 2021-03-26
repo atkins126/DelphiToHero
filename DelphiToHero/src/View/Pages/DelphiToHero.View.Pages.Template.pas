@@ -34,7 +34,8 @@ uses
   FireDAC.Comp.Client,
   Vcl.Grids,
   DelphiToHero.View.Styles.Color,
-  Vcl.DBGrids;
+  Vcl.DBGrids,
+  RESTRequest4D;
 
 type
   TFormTemplate = class(TForm, iRouter4DComponent)
@@ -72,7 +73,7 @@ type
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, COLOR_BACKGROUND_TOP, FONT_NAME)]
     Edit1: TEdit;
 
-    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR, FONT_NAME)]
+    [ComponentBindStyle(COLOR_BACKGROUND, FONT_H7, FONT_COLOR, FONT_NAME)]
     DBGrid1: TDBGrid;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
@@ -92,18 +93,39 @@ type
 
     ImageList1: TImageList;
     ActionList1: TActionList;
-    acAdicionar: TAction;
+    acAdd: TAction;
     acRelatorio: TAction;
     acConfiguracoes: TAction;
     Line1: TShape;
     Label2: TLabel;
     Line2: TShape;
-    FDMemTable1: TFDMemTable;
     DataSource1: TDataSource;
+    FDMemTable1: TFDMemTable;
+    acHistory: TAction;
+    acSave: TAction;
+    acCancel: TAction;
+    acDelete: TAction;
+    acRefresh: TAction;
+    Panel2: TPanel;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton6: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton7: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton8: TSpeedButton;
     procedure FormCreate(Sender: TObject);
-    procedure acAdicionarExecute(Sender: TObject);
+    procedure acAddExecute(Sender: TObject);
     procedure acRelatorioExecute(Sender: TObject);
     procedure acConfiguracoesExecute(Sender: TObject);
+    procedure acDeleteExecute(Sender: TObject);
+    procedure acHistoryExecute(Sender: TObject);
+    procedure acSaveExecute(Sender: TObject);
+    procedure acCancelExecute(Sender: TObject);
+    procedure FormResize(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
   private
     { Private declarations }
     FEndPoint: string;
@@ -111,6 +133,9 @@ type
     FTitle: string;
     FSort, FOrder: string;
     procedure ApplyStyle;
+    procedure GetEndPoint;
+    procedure FormatList;
+    procedure AlterListForm;
   public
     { Public declarations }
     function Render: TForm;
@@ -122,11 +147,19 @@ var
 
 implementation
 
+uses
+  System.JSON;
+
 {$R *.dfm}
 
 { TFormTemplate }
 
-procedure TFormTemplate.acAdicionarExecute(Sender: TObject);
+procedure TFormTemplate.acAddExecute(Sender: TObject);
+begin
+  AlterListForm;
+end;
+
+procedure TFormTemplate.acCancelExecute(Sender: TObject);
 begin
   //
 end;
@@ -136,9 +169,40 @@ begin
   //
 end;
 
+procedure TFormTemplate.acDeleteExecute(Sender: TObject);
+begin
+  //
+end;
+
+procedure TFormTemplate.acHistoryExecute(Sender: TObject);
+begin
+  // historico
+end;
+
 procedure TFormTemplate.acRelatorioExecute(Sender: TObject);
 begin
   //
+end;
+
+procedure TFormTemplate.acSaveExecute(Sender: TObject);
+var
+  aJSON: TJSONObject;
+begin
+  aJSON := TBind4D.New.Form(Self).FormToJson(fbPost);
+  try
+
+    TRequest.New
+      .BaseURL('http://localhost:9000'+ FEndPoint)
+      .Accept('application/json')
+      .AddBody(aJSON.ToJSON)
+    .Post;
+
+  finally
+    aJSON.Free;
+  end;
+
+  AlterListForm;
+  GetEndPoint;
 end;
 
 procedure TFormTemplate.ApplyStyle;
@@ -159,15 +223,35 @@ begin
   DBGrid1.TitleFont.Color := FONT_COLOR4;  
 end;
 
+procedure TFormTemplate.DBGrid1DblClick(Sender: TObject);
+begin
+  TBind4D.New.Form(Self).BindDataSetToForm(FDMemTable1);
+  AlterListForm;
+end;
+
 procedure TFormTemplate.FormCreate(Sender: TObject);
 begin
-  //TBindFormJson.New.BindClassToForm(Self, FEndPoint, FPK, FTitle);
   TBind4D.New
     .Form(Self)
     .BindFormDefault(FTitle)
     .BindFormRest(FEndPoint, FPK, FSort, FOrder)
     .SetStyleComponents;
   ApplyStyle;
+  GetEndPoint;
+end;
+
+procedure TFormTemplate.FormResize(Sender: TObject);
+begin
+  FormatList;
+end;
+
+procedure TFormTemplate.GetEndPoint;
+begin
+  TRequest.New.BaseURL('http://localhost:9000'+ FEndPoint)
+    .Accept('application/json')
+    .DataSetAdapter(FDMemTable1)
+    .Get;
+  FormatList;
 end;
 
 function TFormTemplate.Render: TForm;
@@ -178,6 +262,17 @@ end;
 procedure TFormTemplate.UnRender;
 begin
 
+end;
+
+procedure TFormTemplate.AlterListForm;
+begin
+  Panel6.Visible := not Panel6.Visible;
+  DBGrid1.Visible := not DBGrid1.Visible;
+end;
+
+procedure TFormTemplate.FormatList;
+begin
+  TBind4D.New.Form(Self).BindFormatListDataSet(FDMemTable1, DBGrid1);
 end;
 
 end.
