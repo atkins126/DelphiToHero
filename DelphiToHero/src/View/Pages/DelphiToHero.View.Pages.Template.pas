@@ -22,22 +22,16 @@ uses
   System.Actions,
   Vcl.ActnList,
   Data.DB,
-  FireDAC.Stan.Intf,
-  FireDAC.Stan.Option,
-  FireDAC.Stan.Param,
-  FireDAC.Stan.Error,
-  FireDAC.DatS,
-  FireDAC.Phys.Intf,
-  FireDAC.DApt.Intf,
-  FireDAC.Stan.StorageBin,
-  FireDAC.Comp.DataSet,
-  FireDAC.Comp.Client,
   Vcl.Grids,
   DelphiToHero.View.Styles.Color,
   Vcl.DBGrids,
-  RESTRequest4D;
+  RESTRequest4D,
+  DelphiToHero.Model.DAO.Interfaces,
+  DelphiToHero.Model.DAO.REST;
 
 type
+  TTypeOperation = (toNull, toPost, toPut);
+
   TFormTemplate = class(TForm, iRouter4DComponent)
 
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H5, FONT_COLOR3, FONT_NAME)]
@@ -91,6 +85,15 @@ type
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     SpeedButton5: TSpeedButton;
 
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton6: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton7: TSpeedButton;
+
+    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    SpeedButton8: TSpeedButton;
+
     ImageList1: TImageList;
     ActionList1: TActionList;
     acAdd: TAction;
@@ -100,22 +103,13 @@ type
     Label2: TLabel;
     Line2: TShape;
     DataSource1: TDataSource;
-    FDMemTable1: TFDMemTable;
     acHistory: TAction;
     acSave: TAction;
     acCancel: TAction;
     acDelete: TAction;
     acRefresh: TAction;
     Panel2: TPanel;
-
-    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton6: TSpeedButton;
-
-    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton7: TSpeedButton;
-
-    [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton8: TSpeedButton;
+    ImageList2: TImageList;
     procedure FormCreate(Sender: TObject);
     procedure acAddExecute(Sender: TObject);
     procedure acRelatorioExecute(Sender: TObject);
@@ -126,16 +120,23 @@ type
     procedure acCancelExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
+    procedure acRefreshExecute(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+    procedure Edit1KeyPress(Sender: TObject; var Key: Char);
   private
     { Private declarations }
+    FTypeOperation: TTypeOperation;
     FEndPoint: string;
     FPK: string;
     FTitle: string;
     FSort, FOrder: string;
+    FDAO: iDAOInterface;
     procedure ApplyStyle;
     procedure GetEndPoint;
     procedure FormatList;
     procedure AlterListForm;
+    procedure RestOperationPost;
+    procedure RestOperationPut;
   public
     { Public declarations }
     function Render: TForm;
@@ -148,7 +149,7 @@ var
 implementation
 
 uses
-  System.JSON;
+  System.JSON, System.StrUtils;
 
 {$R *.dfm}
 
@@ -156,12 +157,15 @@ uses
 
 procedure TFormTemplate.acAddExecute(Sender: TObject);
 begin
+  FTypeOperation := toPost;
   AlterListForm;
+  TBind4D.New.Form(Self).ClearFieldForm;
 end;
 
 procedure TFormTemplate.acCancelExecute(Sender: TObject);
 begin
-  //
+  AlterListForm;
+  FTypeOperation := toNull;
 end;
 
 procedure TFormTemplate.acConfiguracoesExecute(Sender: TObject);
@@ -171,12 +175,20 @@ end;
 
 procedure TFormTemplate.acDeleteExecute(Sender: TObject);
 begin
-  //
+  FDAO.Delete;
+  GetEndPoint;
+  AlterListForm;
+  FTypeOperation := toNull;
 end;
 
 procedure TFormTemplate.acHistoryExecute(Sender: TObject);
 begin
   // historico
+end;
+
+procedure TFormTemplate.acRefreshExecute(Sender: TObject);
+begin
+  GetEndPoint;
 end;
 
 procedure TFormTemplate.acRelatorioExecute(Sender: TObject);
@@ -185,24 +197,12 @@ begin
 end;
 
 procedure TFormTemplate.acSaveExecute(Sender: TObject);
-var
-  aJSON: TJSONObject;
 begin
-  aJSON := TBind4D.New.Form(Self).FormToJson(fbPost);
-  try
-
-    TRequest.New
-      .BaseURL('http://localhost:9000'+ FEndPoint)
-      .Accept('application/json')
-      .AddBody(aJSON.ToJSON)
-    .Post;
-
-  finally
-    aJSON.Free;
+  case FTypeOperation of
+    toNull: ;
+    toPost: RestOperationPost;
+    toPut: RestOperationPut;
   end;
-
-  AlterListForm;
-  GetEndPoint;
 end;
 
 procedure TFormTemplate.ApplyStyle;
@@ -225,12 +225,39 @@ end;
 
 procedure TFormTemplate.DBGrid1DblClick(Sender: TObject);
 begin
-  TBind4D.New.Form(Self).BindDataSetToForm(FDMemTable1);
+  FTypeOperation := toPut;
+  TBind4D.New.Form(Self).BindDataSetToForm(FDAO.DataSet);
   AlterListForm;
+end;
+
+procedure TFormTemplate.DBGrid1TitleClick(Column: TColumn);
+begin
+  FOrder := ifThen(FOrder = 'desc', 'asc', 'desc');
+  FDAO
+    .AddParam('sort', Column.FieldName)
+    .AddParam('order', FOrder)
+  .Get;
+  FormatList;
+end;
+
+procedure TFormTemplate.Edit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    FDAO
+      .AddParam('sort', FSort)
+      .AddParam('order', FOrder)
+      .AddParam('searchfields', TBind4D.New.Form(Self).GetFieldsByType(fbGet))
+      .AddParam('searchvalue', Edit1.Text)
+    .Get;
+    FormatList;
+  end;
 end;
 
 procedure TFormTemplate.FormCreate(Sender: TObject);
 begin
+  FTypeOperation := toNull;
+  FDAO := TDAOREST.New(Self).DataSource(DataSource1);
   TBind4D.New
     .Form(Self)
     .BindFormDefault(FTitle)
@@ -247,16 +274,32 @@ end;
 
 procedure TFormTemplate.GetEndPoint;
 begin
-  TRequest.New.BaseURL('http://localhost:9000'+ FEndPoint)
-    .Accept('application/json')
-    .DataSetAdapter(FDMemTable1)
-    .Get;
+  FDAO
+    .AddParam('sort', FSort)
+    .AddParam('order', FOrder)
+  .Get;
   FormatList;
 end;
 
 function TFormTemplate.Render: TForm;
 begin
   Result := Self;
+end;
+
+procedure TFormTemplate.RestOperationPost;
+begin
+  FDAO.Post;
+  GetEndPoint;
+  AlterListForm;
+  FTypeOperation := toNull;
+end;
+
+procedure TFormTemplate.RestOperationPut;
+begin
+  FDAO.Put;
+  GetEndPoint;
+  AlterListForm;
+  FTypeOperation := toNull;
 end;
 
 procedure TFormTemplate.UnRender;
@@ -272,7 +315,7 @@ end;
 
 procedure TFormTemplate.FormatList;
 begin
-  TBind4D.New.Form(Self).BindFormatListDataSet(FDMemTable1, DBGrid1);
+  TBind4D.New.Form(Self).BindFormatListDataSet(FDAO.DataSet, DBGrid1);
 end;
 
 end.

@@ -7,7 +7,9 @@ uses
   DelphiToHero.View.Pages.Principal in 'src\View\Pages\DelphiToHero.View.Pages.Principal.pas' {frmPagePrincipal},
   DelphiToHero.View.Routers in 'src\View\Routers\DelphiToHero.View.Routers.pas',
   DelphiToHero.View.Pages.Template in 'src\View\Pages\DelphiToHero.View.Pages.Template.pas' {FormTemplate},
-  DelphiToHero.View.Pages.Usuarios in 'src\View\Pages\DelphiToHero.View.Pages.Usuarios.pas' {PageUsuarios};
+  DelphiToHero.View.Pages.Usuarios in 'src\View\Pages\DelphiToHero.View.Pages.Usuarios.pas' {PageUsuarios},
+  DelphiToHero.Model.DAO.Interfaces in 'src\Model\DAO\DelphiToHero.Model.DAO.Interfaces.pas',
+  DelphiToHero.Model.DAO.REST in 'src\Model\DAO\DelphiToHero.Model.DAO.REST.pas';
 
 {$R *.res}
 
