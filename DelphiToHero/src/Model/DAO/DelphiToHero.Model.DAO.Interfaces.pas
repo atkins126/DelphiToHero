@@ -15,6 +15,14 @@ type
     function DataSource(ADataSet: TDataSource) : iDAOInterface;
     function DataSet: TDataSet;
     function AddParam(aKey: string; aValue: string) : iDAOInterface;
+    function Page: Integer; overload;
+    function Page(AValue: Integer): iDAOInterface; overload;
+    function Limit: Integer; overload;
+    function Limit(AValue: Integer): iDAOInterface; overload;
+    function Total(aValue: Integer): iDAOInterface; overload;
+    function Total: Integer; overload;
+    function Pages(aValue: Integer): iDAOInterface; overload;
+    function Pages: Integer; overload;
   end;
 
 implementation

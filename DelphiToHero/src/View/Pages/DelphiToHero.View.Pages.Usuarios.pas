@@ -35,7 +35,10 @@ uses
   Vcl.Grids,
   Vcl.DBGrids,
   Vcl.WinXPanels,
-  DelphiToHero.View.Styles.Color, Vcl.ComCtrls;
+  DelphiToHero.View.Styles.Color,
+  Vcl.ComCtrls,
+  Bind4D.Attributes,
+  Bind4D.Types;
 
 type
   [FormRest('/users', 'guuid', 'name', 'asc')]
@@ -46,73 +49,85 @@ type
     StackPanel2: TStackPanel;
 
     [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    [Translation('Código')]
     lblCodigo: TLabel;
 
     [FieldJsonBind('guuid'), FbIgnorePost, FbIgnorePut]
-    [FieldDataSetBind('guuid', ftString, False, 10, 'Código')]
+    [FieldDataSetBind('guuid', ftString, False, 0, 'Código')]
+    [Translation('Código')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME)]
     edtCodigo: TEdit;
 
     [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    [Translation('Nome')]
     lblNome: TLabel;
 
     [FieldJsonBind('name')]
-    [FieldDataSetBind('name', ftString, True, 20, 'nome')]
+    [FieldDataSetBind('name', ftString, True, 25, 'Nome')]
+    [Translation('Nome')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME)]
     edtNome: TEdit;
 
     [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    [Translation('Telefone')]
     lblFone: TLabel;
 
     [FieldJsonBind('phone')]
-    [FieldDataSetBind('phone', ftString, True, 10, 'Telefone', '!\(##\) #####-####;0;_')]
+    [FieldDataSetBind('phone', ftString, True, 10, 'Telefone', '!\(##\) #####-####;0;_', taLeftJustify, 700)]
+    [Translation('Telefone')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME, teCell)]
     edtFone: TEdit;
 
     [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    [Translation('Profissão')]
     lblProficao: TLabel;
 
     [FieldJsonBind('occupation')]
-    [FieldDataSetBind('occupation', ftString, True, 10, 'Profissão')]
+    [FieldDataSetBind('occupation', ftString, True, 12, 'Profissão', '', taLeftJustify, 1000)]
+    [Translation('Profissão')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME)]
     edtProfissao: TEdit;
 
     [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    [Translation('Saldo')]
     lblbalance: TLabel;
 
     [FieldJsonBind('balance')]
-    [FieldDataSetBind('balance', ftCurrency, True, 10, 'Saldo', 'R$ #0.00;0;_', taLeftJustify)]
+    [FieldDataSetBind('balance', ftCurrency, True, 10, 'Saldo', 'R$ ###,###,##0.00', taLeftJustify, 500)]
+    [Translation('Saldo')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME, teCoin)]
     edtSaldo: TEdit;
 
-    [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    lblbirthdate: TLabel;
-
     [FieldJsonBind('birthdate')]
-    [FieldDataSetBind('birthdate', ftDateTime, True, 10, 'Data Nasc', '##/##/####;0;_')]
+    [FieldDataSetBind('birthdate', ftDate, True, 8, 'Data Nasc', '##/##/####;0;_', taLeftJustify, 1150)]
+    [Translation('Data Nascimento')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME)]
     edtbirthdate: TDateTimePicker;
 
-
-    Label1: TLabel;
+    [ComponentBindStyle(COLOR_C1, FONT_H8, FONT_COLOR3, FONT_NAME)]
+    [Translation('Data Nascimento')]
+    lblbirthdate: TLabel;
 
     [FieldJsonBind('lasttransaction')]
-    [FieldDataSetBind('lasttransaction', ftDateTime, True, 10, 'Ultima Trans.', '##/##/####;0;_')]
+    [FieldDataSetBind('lasttransaction', ftTime, True, 7, 'Ultima Trans.', '##:##:##;0;_', taLeftJustify, 1250)]
+    [Translation('Ultima Transação')]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME)]
     edtlasttransaction: TDateTimePicker;
-    Label3: TLabel;
+    [Translation('Ultima Transação')]
+    lblUltTrans: TLabel;
 
     [FieldJsonBind('cpf')]
-    [FieldDataSetBind('cpf', ftString, True, 10, 'cpf', '###.###.###-##;0;_')]
+    [FieldDataSetBind('cpf', ftString, True, 8, 'CPF', '###.###.###-##;0;_', taLeftJustify, 800)]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME, teCPF)]
     edtCPF: TEdit;
-    lblTra: TLabel;
+    lblCPF: TLabel;
 
 
     [FieldJsonBind('cnpj')]
-    [FieldDataSetBind('cnpj', ftString, True, 10, 'cnpj', '##.###.###/####-##;0;_')]
+    [FieldDataSetBind('cnpj', ftString, True, 10, 'CNPJ', '##.###.###/####-##;0;_', taLeftJustify, 1400)]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, FONT_COLOR3, FONT_NAME, teCNPJ)]
     edtCNPJ: TEdit;
+    lblCNPJ: TLabel;
 
 
   private

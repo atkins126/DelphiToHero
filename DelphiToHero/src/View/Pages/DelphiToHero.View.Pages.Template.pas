@@ -26,6 +26,8 @@ uses
   DelphiToHero.View.Styles.Color,
   Vcl.DBGrids,
   RESTRequest4D,
+  Bind4D.Attributes,
+  Bind4D.Types,
   DelphiToHero.Model.DAO.Interfaces,
   DelphiToHero.Model.DAO.REST;
 
@@ -64,6 +66,9 @@ type
     [ComponentBindStyle(clbtnface, FONT_H6, FONT_COLOR3, FONT_NAME)]
     lblTitle: TLabel;
 
+    [ComponentBindStyle(clbtnface, FONT_H6, FONT_COLOR3, FONT_NAME)]
+    lblPagina: TLabel;
+
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, COLOR_BACKGROUND_TOP, FONT_NAME)]
     Edit1: TEdit;
 
@@ -71,28 +76,36 @@ type
     DBGrid1: TDBGrid;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton1: TSpeedButton;
+    [Translation('CONFIGURAÇÕES')]
+    btnCONFIG: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton2: TSpeedButton;
+    [Translation('RELATÓRIO')]
+    btnREPORT: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton3: TSpeedButton;
+    [Translation('HISTÓRICO')]
+    btnHISTORY: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton4: TSpeedButton;
+    [Translation('NOVO')]
+    btnADD: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton5: TSpeedButton;
+    [Translation('ATUALIZAR')]
+    btnREFRESH: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton6: TSpeedButton;
+    [Translation('EXCLUIR')]
+    btnDELETE: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton7: TSpeedButton;
+    [Translation('CANCELAR')]
+    btnCANCEL: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
-    SpeedButton8: TSpeedButton;
+    [Translation('SALVAR')]
+    btnSAVE: TSpeedButton;
 
     ImageList1: TImageList;
     ActionList1: TActionList;
@@ -109,7 +122,9 @@ type
     acDelete: TAction;
     acRefresh: TAction;
     Panel2: TPanel;
-    ImageList2: TImageList;
+    pnlPaginate: TPanel;
+    btnNEXT: TSpeedButton;
+    btnPRIOR: TSpeedButton;
     procedure FormCreate(Sender: TObject);
     procedure acAddExecute(Sender: TObject);
     procedure acRelatorioExecute(Sender: TObject);
@@ -123,6 +138,8 @@ type
     procedure acRefreshExecute(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
     procedure Edit1KeyPress(Sender: TObject; var Key: Char);
+    procedure btnPRIORClick(Sender: TObject);
+    procedure btnNEXTClick(Sender: TObject);
   private
     { Private declarations }
     FTypeOperation: TTypeOperation;
@@ -131,6 +148,7 @@ type
     FTitle: string;
     FSort, FOrder: string;
     FDAO: iDAOInterface;
+    FPage: Integer;
     procedure ApplyStyle;
     procedure GetEndPoint;
     procedure FormatList;
@@ -149,7 +167,8 @@ var
 implementation
 
 uses
-  System.JSON, System.StrUtils;
+  System.JSON,
+  System.StrUtils;
 
 {$R *.dfm}
 
@@ -210,7 +229,9 @@ begin
   Self.Font.Name := FONT_NAME;
 
   Panel6.Visible := False;
-  lblTitle.Caption := FTitle;
+  DBGrid1.Align := alClient;
+
+  lblTitle.Caption := TBind4D.New.Translator.Google.Params.Query(FTitle).&End.Execute;
 
   Line1.Brush.Color := COLOR_C2;
   Line2.Brush.Color := COLOR_C2;
@@ -220,7 +241,7 @@ begin
 
   DBGrid1.TitleFont.Name  := FONT_NAME;
   DBGrid1.TitleFont.Size  := FONT_H5;
-  DBGrid1.TitleFont.Color := FONT_COLOR4;  
+  DBGrid1.TitleFont.Color := FONT_COLOR4;
 end;
 
 procedure TFormTemplate.DBGrid1DblClick(Sender: TObject);
@@ -236,6 +257,7 @@ begin
   FDAO
     .AddParam('sort', Column.FieldName)
     .AddParam('order', FOrder)
+    .Page(1)
   .Get;
   FormatList;
 end;
@@ -244,11 +266,13 @@ procedure TFormTemplate.Edit1KeyPress(Sender: TObject; var Key: Char);
 begin
   if Key = #13 then
   begin
+    Key := #0;
     FDAO
       .AddParam('sort', FSort)
       .AddParam('order', FOrder)
       .AddParam('searchfields', TBind4D.New.Form(Self).GetFieldsByType(fbGet))
       .AddParam('searchvalue', Edit1.Text)
+      .Page(1)
     .Get;
     FormatList;
   end;
@@ -256,6 +280,7 @@ end;
 
 procedure TFormTemplate.FormCreate(Sender: TObject);
 begin
+  FPage := 1;
   FTypeOperation := toNull;
   FDAO := TDAOREST.New(Self).DataSource(DataSource1);
   TBind4D.New
@@ -269,6 +294,7 @@ end;
 
 procedure TFormTemplate.FormResize(Sender: TObject);
 begin
+//  GetEndPoint;
   FormatList;
 end;
 
@@ -277,6 +303,7 @@ begin
   FDAO
     .AddParam('sort', FSort)
     .AddParam('order', FOrder)
+    .Page(FPage)
   .Get;
   FormatList;
 end;
@@ -302,6 +329,24 @@ begin
   FTypeOperation := toNull;
 end;
 
+procedure TFormTemplate.btnPRIORClick(Sender: TObject);
+begin
+  if FDAO.Page > 1 then
+  begin
+    FPage := FDAO.Page -1;
+    GetEndPoint;
+  end;
+end;
+
+procedure TFormTemplate.btnNEXTClick(Sender: TObject);
+begin
+  if FDAO.Page < FDAO.Pages then
+  begin
+    FPage := FDAO.Page +1;
+    GetEndPoint;
+  end;
+end;
+
 procedure TFormTemplate.UnRender;
 begin
 
@@ -316,6 +361,8 @@ end;
 procedure TFormTemplate.FormatList;
 begin
   TBind4D.New.Form(Self).BindFormatListDataSet(FDAO.DataSet, DBGrid1);
+  lblPagina.Caption := 'Página '+ FDAO.Page.ToString + ' de ' + FDAO.Pages.ToString;
+  lblPagina.Caption := TBind4D.New.Translator.Google.Params.Query(lblPagina.Caption).&End.Execute;
 end;
 
 end.
