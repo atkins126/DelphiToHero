@@ -24,77 +24,84 @@ object Form2: TForm2
     ParentBackground = False
     TabOrder = 0
     object pnlFull: TPanel
-      Left = 121
+      Left = 89
       Top = 0
-      Width = 554
+      Width = 586
       Height = 454
       Align = alClient
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 0
+      ExplicitLeft = 121
+      ExplicitWidth = 554
       object pnlLayout: TPanel
         Left = 0
         Top = 88
-        Width = 554
+        Width = 586
         Height = 366
         Align = alClient
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
-        ExplicitTop = 121
-        ExplicitHeight = 333
+        ExplicitWidth = 554
       end
       object pnlHeader: TPanel
         Left = 0
         Top = 0
-        Width = 554
+        Width = 586
         Height = 88
         Align = alTop
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 1
+        ExplicitWidth = 554
       end
     end
     object pnlMenu: TPanel
       Left = 0
       Top = 0
-      Width = 121
+      Width = 89
       Height = 454
       Align = alLeft
       BevelOuter = bvNone
       ParentBackground = False
       TabOrder = 1
-      object SpeedButton1: TSpeedButton
+      object btnUSUARIO: TSpeedButton
         Left = 0
         Top = 192
-        Width = 121
+        Width = 89
         Height = 104
         Align = alTop
         Caption = 'USUARIO'
         Flat = True
-        OnClick = SpeedButton1Click
-        ExplicitTop = 231
+        Layout = blGlyphTop
+        OnClick = btnUSUARIOClick
+        ExplicitTop = 198
+        ExplicitWidth = 121
       end
-      object SpeedButton2: TSpeedButton
+      object btnPRINCIPAL: TSpeedButton
         Left = 0
         Top = 88
-        Width = 121
+        Width = 89
         Height = 104
         Align = alTop
         Caption = 'PRINCIPAL'
         Flat = True
-        OnClick = SpeedButton2Click
+        Layout = blGlyphTop
+        OnClick = btnPRINCIPALClick
         ExplicitTop = 129
+        ExplicitWidth = 121
       end
       object pnlLogo: TPanel
         Left = 0
         Top = 0
-        Width = 121
+        Width = 89
         Height = 88
         Align = alTop
         BevelOuter = bvNone
         ParentBackground = False
         TabOrder = 0
+        ExplicitWidth = 121
       end
     end
   end

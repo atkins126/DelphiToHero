@@ -3,23 +3,41 @@ unit DelphiToHero.View.Principal;
 interface
 
 uses
-  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, DelphiToHero.View.Styles.Color,
-  Vcl.Buttons, Router4D;
+  Winapi.Windows,
+  Winapi.Messages,
+  System.SysUtils,
+  System.Variants,
+  System.Classes,
+  Vcl.Graphics,
+  Vcl.Controls,
+  Vcl.Forms,
+  Vcl.Dialogs,
+  Vcl.ExtCtrls,
+  Vcl.Buttons,
+  Router4D,
+  Bind4D.Attributes,
+  Bind4D,
+  DelphiToHero.View.Styles.Color;
 
 type
   TForm2 = class(TForm)
+    [Translation('USUARIO')]
+    [ImageAttribute('avatar')]
+    [ComponentBindStyle(clbtnface, FONT_H7, FONT_COLOR, FONT_NAME)]
+    btnUSUARIO: TSpeedButton;
+    [Translation('PRINCIPAL')]
+    [ImageAttribute('home')]
+    [ComponentBindStyle(clbtnface, FONT_H7, FONT_COLOR, FONT_NAME)]
+    btnPRINCIPAL: TSpeedButton;
     pnlContent: TPanel;
     pnlFull: TPanel;
     pnlMenu: TPanel;
     pnlLayout: TPanel;
     pnlHeader: TPanel;
     pnlLogo: TPanel;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
     procedure FormCreate(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
-    procedure SpeedButton1Click(Sender: TObject);
+    procedure btnPRINCIPALClick(Sender: TObject);
+    procedure btnUSUARIOClick(Sender: TObject);
   private
     procedure ApplyStyle;
     { Private declarations }
@@ -39,16 +57,20 @@ uses DelphiToHero.View.Pages.Principal;
 procedure TForm2.FormCreate(Sender: TObject);
 begin
   ApplyStyle;
-
   TRouter4D.Render<TfrmPagePrincipal>.SetElement(pnlLayout, pnlContent);
+  TBind4D.New
+    .Form(Self)
+    .SetImageComponents
+    .SetCaptionComponents
+    .SetStyleComponents;
 end;
 
-procedure TForm2.SpeedButton1Click(Sender: TObject);
+procedure TForm2.btnUSUARIOClick(Sender: TObject);
 begin
   TRouter4D.Link.&To('Usuarios');
 end;
 
-procedure TForm2.SpeedButton2Click(Sender: TObject);
+procedure TForm2.btnPRINCIPALClick(Sender: TObject);
 begin
   TRouter4D.Link.&To('Principal');
 end;

@@ -10,18 +10,34 @@
 			"failed": false,
 			"changed": false
 		},
+		"github.com/viniciussanchez/restrequest4delphi": {
+			"name": "restrequest4delphi",
+			"version": "v3.0.5",
+			"hash": "c4ead963093502712c6af02f86b819d0",
+			"artifacts": {},
+			"failed": false,
+			"changed": true
+		},
 		"https://github.com/bittencourtthulio/aws4d": {
 			"name": "aws4d",
-			"version": "1.0.5",
-			"hash": "fdb6582d638c93a40cdb734d73015256",
+			"version": "1.0.7",
+			"hash": "12e19c045cd2dc38cc483e2c3cd7c47b",
 			"artifacts": {},
 			"failed": false,
 			"changed": false
 		},
 		"https://github.com/bittencourtthulio/bind4d": {
 			"name": "bind4d",
-			"version": "1.0.10",
-			"hash": "cc113aee7ebfc9fc9513aa55a8c3bb33",
+			"version": "1.0.21",
+			"hash": "bd36cbbc8db177b53fbdc47d8672f77c",
+			"artifacts": {},
+			"failed": false,
+			"changed": false
+		},
+		"https://github.com/bittencourtthulio/hstorage4d": {
+			"name": "hstorage4d",
+			"version": "1.0.2",
+			"hash": "3cf606bddab3b3f310daf0952e28dddd",
 			"artifacts": {},
 			"failed": false,
 			"changed": false
@@ -44,11 +60,19 @@
 		},
 		"https://github.com/bittencourtthulio/translator4d": {
 			"name": "translator4d",
-			"version": "1.0.3",
-			"hash": "062c8d75521016b98bc0250d88c27792",
+			"version": "1.0.4",
+			"hash": "a952ed310e4f8770b0eef08a7b9c5967",
 			"artifacts": {},
 			"failed": false,
 			"changed": false
+		},
+		"https://github.com/viniciussanchez/dataset-serialize": {
+			"name": "dataset-serialize",
+			"version": "v2.3.0",
+			"hash": "916555f057218c63d26c06a3c0bd12f4",
+			"artifacts": {},
+			"failed": false,
+			"changed": true
 		},
 		"https://github.com/viniciussanchez/restrequest4delphi": {
 			"name": "restrequest4delphi",

@@ -1,5 +1,7 @@
 program DelphiToHero;
 
+{$R *.dres}
+
 uses
   Vcl.Forms,
   DelphiToHero.View.Principal in 'Src\View\DelphiToHero.View.Principal.pas' {Form2},

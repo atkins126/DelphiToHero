@@ -72,55 +72,54 @@ type
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H6, COLOR_BACKGROUND_TOP, FONT_NAME)]
     Edit1: TEdit;
 
+    [AdjustResponsive]
     [ComponentBindStyle(COLOR_BACKGROUND, FONT_H7, FONT_COLOR, FONT_NAME)]
     DBGrid1: TDBGrid;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('CONFIGURAÇÕES')]
+    [ImageAttribute('settings')]
     btnCONFIG: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('RELATÓRIO')]
+    [ImageAttribute('printer')]
     btnREPORT: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('HISTÓRICO')]
+    [ImageAttribute('history')]
     btnHISTORY: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('NOVO')]
+    [ImageAttribute('add')]
     btnADD: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('ATUALIZAR')]
+    [ImageAttribute('reload')]
     btnREFRESH: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('EXCLUIR')]
+    [ImageAttribute('delete')]
     btnDELETE: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('CANCELAR')]
+    [ImageAttribute('cancel')]
     btnCANCEL: TSpeedButton;
 
     [ComponentBindStyle(clbtnface, FONT_H8, FONT_COLOR3, FONT_NAME)]
     [Translation('SALVAR')]
+    [ImageAttribute('save')]
     btnSAVE: TSpeedButton;
 
-    ImageList1: TImageList;
-    ActionList1: TActionList;
-    acAdd: TAction;
-    acRelatorio: TAction;
-    acConfiguracoes: TAction;
     Line1: TShape;
     Label2: TLabel;
     Line2: TShape;
     DataSource1: TDataSource;
-    acHistory: TAction;
-    acSave: TAction;
-    acCancel: TAction;
-    acDelete: TAction;
-    acRefresh: TAction;
     Panel2: TPanel;
     pnlPaginate: TPanel;
     btnNEXT: TSpeedButton;
@@ -133,7 +132,6 @@ type
     procedure acHistoryExecute(Sender: TObject);
     procedure acSaveExecute(Sender: TObject);
     procedure acCancelExecute(Sender: TObject);
-    procedure FormResize(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure acRefreshExecute(Sender: TObject);
     procedure DBGrid1TitleClick(Column: TColumn);
@@ -287,15 +285,11 @@ begin
     .Form(Self)
     .BindFormDefault(FTitle)
     .BindFormRest(FEndPoint, FPK, FSort, FOrder)
+    .SetImageComponents
+    .SetCaptionComponents
     .SetStyleComponents;
   ApplyStyle;
   GetEndPoint;
-end;
-
-procedure TFormTemplate.FormResize(Sender: TObject);
-begin
-//  GetEndPoint;
-  FormatList;
 end;
 
 procedure TFormTemplate.GetEndPoint;
@@ -360,7 +354,7 @@ end;
 
 procedure TFormTemplate.FormatList;
 begin
-  TBind4D.New.Form(Self).BindFormatListDataSet(FDAO.DataSet, DBGrid1);
+  TBind4D.New.Form(Self).BindFormatListDataSet(FDAO.DataSet, DBGrid1).ResponsiveAdjustment;
   lblPagina.Caption := 'Página '+ FDAO.Page.ToString + ' de ' + FDAO.Pages.ToString;
   lblPagina.Caption := TBind4D.New.Translator.Google.Params.Query(lblPagina.Caption).&End.Execute;
 end;
