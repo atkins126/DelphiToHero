@@ -1,6 +1,6 @@
 inherited PageUsuarios: TPageUsuarios
   Caption = 'PageUsuarios'
-  ExplicitLeft = -230
+  ExplicitLeft = -268
   PixelsPerInch = 96
   TextHeight = 13
   inherited pnlPrincipal: TPanel
@@ -11,7 +11,7 @@ inherited PageUsuarios: TPageUsuarios
           end
           inherited Panel6: TPanel [1]
             inherited Panel2: TPanel
-              inherited SpeedButton6: TSpeedButton
+              inherited btnDELETE: TSpeedButton
                 Align = alNone
               end
             end
@@ -19,7 +19,7 @@ inherited PageUsuarios: TPageUsuarios
               Left = 0
               Top = 0
               Width = 265
-              Height = 254
+              Height = 243
               Align = alLeft
               BevelOuter = bvNone
               ControlCollection = <
@@ -147,7 +147,7 @@ inherited PageUsuarios: TPageUsuarios
               Left = 265
               Top = 0
               Width = 288
-              Height = 254
+              Height = 243
               Align = alLeft
               BevelOuter = bvNone
               ControlCollection = <
@@ -160,7 +160,7 @@ inherited PageUsuarios: TPageUsuarios
                   Control = edtbirthdate
                 end
                 item
-                  Control = Label1
+                  Control = lblUltTrans
                   HorizontalPositioning = sphpFill
                   VerticalPositioning = spvpTop
                 end
@@ -168,7 +168,7 @@ inherited PageUsuarios: TPageUsuarios
                   Control = edtlasttransaction
                 end
                 item
-                  Control = Label3
+                  Control = lblCPF
                   HorizontalPositioning = sphpFill
                   VerticalPositioning = spvpTop
                 end
@@ -176,7 +176,7 @@ inherited PageUsuarios: TPageUsuarios
                   Control = edtCPF
                 end
                 item
-                  Control = lblTra
+                  Control = lblCNPJ
                   HorizontalPositioning = sphpFill
                   VerticalPositioning = spvpTop
                 end
@@ -204,7 +204,7 @@ inherited PageUsuarios: TPageUsuarios
                 Time = 0.949728275460074700
                 TabOrder = 0
               end
-              object Label1: TLabel
+              object lblUltTrans: TLabel
                 Left = 15
                 Top = 38
                 Width = 258
@@ -222,7 +222,7 @@ inherited PageUsuarios: TPageUsuarios
                 Kind = dtkTime
                 TabOrder = 1
               end
-              object Label3: TLabel
+              object lblCPF: TLabel
                 Left = 15
                 Top = 76
                 Width = 258
@@ -237,7 +237,7 @@ inherited PageUsuarios: TPageUsuarios
                 Height = 21
                 TabOrder = 2
               end
-              object lblTra: TLabel
+              object lblCNPJ: TLabel
                 Left = 15
                 Top = 114
                 Width = 258
@@ -254,6 +254,11 @@ inherited PageUsuarios: TPageUsuarios
               end
             end
           end
+        end
+      end
+      inherited pnlPaginate: TPanel
+        inherited lblPagina: TLabel
+          ExplicitLeft = 784
         end
       end
     end

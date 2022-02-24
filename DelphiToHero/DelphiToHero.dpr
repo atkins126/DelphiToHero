@@ -1,5 +1,7 @@
 program DelphiToHero;
 
+{$R *.dres}
+
 uses
   Vcl.Forms,
   DelphiToHero.View.Principal in 'Src\View\DelphiToHero.View.Principal.pas' {Form2},
@@ -9,7 +11,8 @@ uses
   DelphiToHero.View.Pages.Template in 'src\View\Pages\DelphiToHero.View.Pages.Template.pas' {FormTemplate},
   DelphiToHero.View.Pages.Usuarios in 'src\View\Pages\DelphiToHero.View.Pages.Usuarios.pas' {PageUsuarios},
   DelphiToHero.Model.DAO.Interfaces in 'src\Model\DAO\DelphiToHero.Model.DAO.Interfaces.pas',
-  DelphiToHero.Model.DAO.REST in 'src\Model\DAO\DelphiToHero.Model.DAO.REST.pas';
+  DelphiToHero.Model.DAO.REST in 'src\Model\DAO\DelphiToHero.Model.DAO.REST.pas',
+  DelphiToHero.Model.Services.Register in 'src\Model\Services\DelphiToHero.Model.Services.Register.pas';
 
 {$R *.res}
 

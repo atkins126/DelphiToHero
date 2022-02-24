@@ -13,6 +13,7 @@ object frmPagePrincipal: TfrmPagePrincipal
   Font.Name = 'Tahoma'
   Font.Style = []
   OldCreateOrder = False
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
@@ -24,12 +25,10 @@ object frmPagePrincipal: TfrmPagePrincipal
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 711
-    ExplicitHeight = 381
     object Label1: TLabel
       Left = 0
       Top = 0
-      Width = 201
+      Width = 727
       Height = 35
       Align = alTop
       Alignment = taCenter
@@ -40,6 +39,7 @@ object frmPagePrincipal: TfrmPagePrincipal
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
+      ExplicitWidth = 201
     end
   end
 end
